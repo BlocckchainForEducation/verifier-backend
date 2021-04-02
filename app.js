@@ -9,11 +9,9 @@ axios.defaults.baseURL = process.env.REST_API_URL;
 const cors = require("cors");
 app.use(cors());
 
-const decoder = require("./routes/decode-token");
-app.use(decoder);
-
-const checker = require("./routes/check-integrity");
-app.use(checker);
+app.use(require("./routes/decode-token"));
+app.use(require("./routes/check-integrity"));
+app.use(require("./routes/fetch-encrypt-data"));
 
 app.listen(8002, () => {
   console.log("App listening on port 8002!");
