@@ -1,44 +1,16 @@
 const express = require("express");
 const router = express.Router();
-const axios = require("axios").default;
-const ecies = require("ecies-geth");
+const crypto = require("crypto");
 
 router.post("/check-integrity", async (req, res) => {
   try {
-    const publicKeyHex65 = req.body.publicKeyHex65;
     const plain = req.body.plain;
-    const txid = req.body.txid;
-
-    try {
-      const response = await axios.get("/record/" + txid);
-      if (response.data.ok) {
-        const cipherOnBkc = response.data.cipher;
-        const timestamp = response.data.timestamp;
-        if (await checkIntegrity(plain, cipherOnBkc, publicKeyHex65)) {
-          res.json({ valid: true, timestamp: timestamp });
-        } else {
-          res.json({ valid: false, msg: "Not integrity!" });
-        }
-      } else {
-        res.json({ valid: false, msg: "The tx does not exists!" });
-      }
-    } catch (error) {
-      if (error.response)
-        return res.status(502).json({ msg: error.response.data.error });
-      else return res.status(500).json(error);
-    }
+    const hash = req.body.hash;
+    return res.json({ isIntegrity: crypto.createHash("sha256").update(JSON.stringify(plain)).digest("hex") === hash });
   } catch (error) {
-    res.status(500).send(error);
+    console.error(error);
+    return res.status(500).send(error.toString());
   }
 });
-
-async function checkIntegrity(plain, cipherOnBkc, publicKeyHex65) {
-  // const plainString = JSON.stringify(plain);
-  // const plainBuff = Buffer.from(plainString);
-  // const cipherBuff = await ecies.encrypt(Buffer.from(publicKeyHex65, "hex"), plainBuff);
-  // the same plain, the same pubicKeyHex, but still not the same cipher, cause encrypted data is not determine!
-  // we have to use determine hash function to check integrity instead
-  return true;
-}
 
 module.exports = router;
