@@ -23,11 +23,12 @@ router.post("/check-integrity", async (req, res) => {
         res.json({ valid: false, msg: "The tx does not exists!" });
       }
     } catch (error) {
-      if (error.response) return res.status(502).json({ msg: error.response.data.error });
+      if (error.response)
+        return res.status(502).json({ msg: error.response.data.error });
       else return res.status(500).json(error);
     }
   } catch (error) {
-    res.status(500).json(error.toString());
+    res.status(500).send(error);
   }
 });
 
