@@ -13,6 +13,6 @@ app.use(require("./routes/decode-token"));
 app.use(require("./routes/check-integrity"));
 app.use(require("./routes/fetch-encrypt-data"));
 
-app.listen(8002, () => {
-  console.log("App listening on port 8002!");
+app.listen(8003, () => {
+  console.log("App listening on port 8003!");
 });
