@@ -5,7 +5,7 @@ var fs = require("fs");
 
 app.use(express.json());
 app.use(express.urlencoded({ extended: false }));
-require("dotenv").config({ path: `.env.${process.env.NODE_ENV}` });
+// require("dotenv").config({ path: `.env.${process.env.NODE_ENV}` });
 const axios = require("axios").default;
 axios.defaults.baseURL = process.env.REST_API_URL;
 
@@ -21,8 +21,8 @@ const PORT = process.env.PORT || 8003;
 https
   .createServer(
     {
-      key: fs.readFileSync("/etc/letsencrypt/live/verifier-backend.b4e.vn/privkey.pem"),
-      cert: fs.readFileSync("/etc/letsencrypt/live/verifier-backend.b4e.vn/fullchain.pem"),
+      key: fs.readFileSync("/etc/letsencrypt/live/verifier-backend.b4e.vn/privkey.pem"), // bind
+      cert: fs.readFileSync("/etc/letsencrypt/live/verifier-backend.b4e.vn/fullchain.pem"), // bind
     },
     app
   )
