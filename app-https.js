@@ -16,7 +16,7 @@ app.use(require("./routes/decode-token"));
 app.use(require("./routes/check-integrity"));
 app.use(require("./routes/fetch-encrypt-data"));
 
-const PORT = process.env.PORT || 8003;
+const PORT = process.env.PORT || 8000;
 
 https
   .createServer(
